@@ -24,7 +24,7 @@ while running:
         for event in pygame.event.get():
                 if event.type == pygame.QUIT:          
                         running = False #Be IDLE friendly :)
-            
+                        break            
         ballrect = ballrect.move(speed)
         if ballrect.left < 0 or ballrect.right > width:
                 speed[0] = -speed[0]
