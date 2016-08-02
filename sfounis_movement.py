@@ -9,7 +9,7 @@ init_results = pygame.init() #Returns a 2-tuple (numpass, numfail), numpass is h
 if init_results[1] != 0:
         print("Failed to initialize ", init_results[1], " modules!")
 
-SCR_SIZE = width, height = 640, 320
+SCR_SIZE = width, height = 800, 600
 speed = [1, 1]
 black = (0, 0, 0)
 #### SPEED CONSTANTS ####
@@ -20,26 +20,21 @@ MY_SPEED = MED_SPEED
 
 screen = pygame.display.set_mode(SCR_SIZE)
 
-ball = pygame.image.load("assets/ball.gif")
-ballrect = ball.get_rect()
-hero = pygame.image.load("assets/hero.png")
+hero = pygame.image.load("assets/hero_64x64.png")
 heroRect = hero.get_rect()
+heroRect.move_ip(width/2 - 32 , height/2 - 32)
 
 running = True
 while running:
         pressedKeys = pygame.key.get_pressed() #Returns a boolean index of all keys currently being held down
         if pressedKeys[pygame.K_LEFT]:
                 heroRect = safe_move(SCR_SIZE, heroRect, [-MY_SPEED,0])
-                #heroRect = heroRect.move([-LOW_SPEED,0])
         if pressedKeys[pygame.K_RIGHT]:
             heroRect = safe_move(SCR_SIZE, heroRect, [MY_SPEED,0])
-                #heroRect = heroRect.move([LOW_SPEED,0])
         if pressedKeys[pygame.K_DOWN]:
                 heroRect = safe_move(SCR_SIZE, heroRect, [0, MY_SPEED])
-                #heroRect = heroRect.move([0,-LOW_SPEED])
         if pressedKeys[pygame.K_UP]:
                 heroRect = safe_move(SCR_SIZE, heroRect, [0, -MY_SPEED])
-                #heroRect = heroRect.move([0,LOW_SPEED])
         #Handle events! These, for now, can be KEYPRESS EVENTS or a single QUIT event
         #TODO: Handle situations where the user is pressing and keeping a key down, continuously
         for event in pygame.event.get():
