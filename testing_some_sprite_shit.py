@@ -11,6 +11,8 @@ display_width = 800
 display_height = 600
 
 mySurface = pygame.Surface((800,600))
+
+
 gameDisplay = pygame.display.set_mode((display_width,display_height))
 
 pygame.display.set_caption("Edw ston agwna")
@@ -22,6 +24,7 @@ red = (190,0,7)
 hero = pygame.image.load("scyther.png")
 enemy = pygame.image.load("beedrill.png")
 heroRect = hero.get_rect()
+
 FPS = 15
 clock = pygame.time.Clock()
 
@@ -33,15 +36,16 @@ def message_to_screen(msg, color):
 def enemyMove():
     location_x = 0
     location_y = 100
+    enemyRect = enemy.get_rect()
+
     #gameDisplay.blit(enemy,location_x, location_y)
     while True:
 
-        gameDisplay.fill(white,[location_x - 10,location_y,50,50])
-        gameDisplay.blit(enemy,[location_x,location_y])
+        gameDisplay.fill(white)
+        enemyRect = enemyRect.move(10,0)
+        gameDisplay.blit(enemy,enemyRect)
         pygame.display.update()
-        location_x += 10
-        location_y += 0
-        clock.tick(10)
+        clock.tick(5)
 
 ##def blitHero():
 ##    heroRect.center = (display_width/2), 550
@@ -76,7 +80,7 @@ def gameLoop():
     X = 400
     Y = 200
     speed = 5
-    gameDisplay.fill(white)
+    gameDisplay.fill(red)
     
 
     while gameRunning:
@@ -126,7 +130,7 @@ def gameLoop():
             
         
         
-        clock.tick(10)
+        clock.tick(5)
 
     pygame.quit()
     quit()
