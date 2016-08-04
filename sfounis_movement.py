@@ -1,5 +1,6 @@
 import sys, pygame, os
 from safe_movement import safe_move
+from classes.hero import Hero
 
 #position = (0, 0)
 #os.environ['SDL_VIDEO_WINDOW_POS'] = str(position[0]) + "," + str(position[1])
@@ -20,20 +21,29 @@ MY_SPEED = MED_SPEED
 
 screen = pygame.display.set_mode(SCR_SIZE)
 
-hero = pygame.image.load("assets/hero_64x64.png")
-heroRect = hero.get_rect()
+#Testing Hero class
+protagonist = Hero()
+heroRect = protagonist.rect
 heroRect.move_ip(width/2 - 32 , height/2 - 32)
+
+#hero = pygame.image.load("assets/hero_64x64.png")
+#heroRect = hero.get_rect()
+#heroRect.move_ip(width/2 - 32 , height/2 - 32)
 
 running = True
 while running:
         pressedKeys = pygame.key.get_pressed() #Returns a boolean index of all keys currently being held down
         if pressedKeys[pygame.K_LEFT]:
+                protagonist.changeDirection(3)
                 heroRect = safe_move(SCR_SIZE, heroRect, [-MY_SPEED,0])
         if pressedKeys[pygame.K_RIGHT]:
-            heroRect = safe_move(SCR_SIZE, heroRect, [MY_SPEED,0])
+                protagonist.changeDirection(1)
+                heroRect = safe_move(SCR_SIZE, heroRect, [MY_SPEED,0])
         if pressedKeys[pygame.K_DOWN]:
+                protagonist.changeDirection(2)
                 heroRect = safe_move(SCR_SIZE, heroRect, [0, MY_SPEED])
         if pressedKeys[pygame.K_UP]:
+                protagonist.changeDirection(0)
                 heroRect = safe_move(SCR_SIZE, heroRect, [0, -MY_SPEED])
         #Handle events! These, for now, can be KEYPRESS EVENTS or a single QUIT event
         #TODO: Handle situations where the user is pressing and keeping a key down, continuously
@@ -42,10 +52,10 @@ while running:
                         running = False #Be IDLE friendly :)
 
         screen.fill(black)
-        screen.blit(hero, heroRect)
+        screen.blit(protagonist.current_image, heroRect)
         pygame.display.flip()
         print("POS - Top:", heroRect.top, " Right:", heroRect.right, " Bottom:", heroRect.bottom, " Left:", heroRect.left)
-        #pygame.time.delay(200)
+        #pygame.time.delay(50)
 
 pygame.quit()
 

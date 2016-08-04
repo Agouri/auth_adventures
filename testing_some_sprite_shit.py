@@ -10,10 +10,11 @@ pygame.init()
 display_width = 800
 display_height = 600
 
-mySurface = pygame.Surface((800,600))
-
-
 gameDisplay = pygame.display.set_mode((display_width,display_height))
+
+mySurface = pygame.Surface((800,600), pygame.SRCALPHA)
+mySurface.fill((255,255,255,128))
+gameDisplay.blit(mySurface, (0,0))
 
 pygame.display.set_caption("Edw ston agwna")
 
@@ -41,9 +42,8 @@ def enemyMove():
     #gameDisplay.blit(enemy,location_x, location_y)
     while True:
 
-        gameDisplay.fill(white)
         enemyRect = enemyRect.move(10,0)
-        gameDisplay.blit(enemy,enemyRect)
+        gameDisplay.blit(enemy, enemyRect)
         pygame.display.update()
         clock.tick(5)
 
@@ -123,8 +123,8 @@ def gameLoop():
                 elif event.key == pygame.K_DOWN:
                      if location_y + 50 < 600:
                           location_y += 50
-                    
-            gameDisplay.fill(white)
+
+            gameDisplay.blit(mySurface, (0,0))
             gameDisplay.blit(hero,[location_x,location_y])
             pygame.display.update()
             
