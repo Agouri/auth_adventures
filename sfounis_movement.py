@@ -19,6 +19,9 @@ MED_SPEED = 5
 HIGH_SPEED = 10
 MY_SPEED = MED_SPEED
 
+#### Game clock ####
+clock = pygame.time.Clock()
+
 screen = pygame.display.set_mode(SCR_SIZE)
 
 #Testing Hero class
@@ -55,7 +58,7 @@ while running:
         screen.blit(protagonist.current_image, heroRect)
         pygame.display.flip()
         print("POS - Top:", heroRect.top, " Right:", heroRect.right, " Bottom:", heroRect.bottom, " Left:", heroRect.left)
-        #pygame.time.delay(50)
+        clock.tick(120)
 
 pygame.quit()
 

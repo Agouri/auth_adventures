@@ -1,10 +1,24 @@
 import pygame
 import time
 from threading import Thread
+
+class Pokemon(pygame.sprite.Sprite):
+
+    # Constructor. Pass in the color of the block,
+    # and its x and y position
+    def __init__(self, filename):
+       # Call the parent class (Sprite) constructor
+       pygame.sprite.Sprite.__init__(self)
+
+       # Create an image of the block, and fill it with a color.
+       # This could also be an image loaded from the disk.
+       self.image = pygame.image.load(filename)
+
+       # Fetch the rectangle object that has the dimensions of the image
+       # Update the position of this object by setting the values of rect.x and rect.y
+       self.rect = self.image.get_rect()
+
 pygame.init()
-
-
-    
 
         
 display_width = 800
@@ -12,21 +26,27 @@ display_height = 600
 
 gameDisplay = pygame.display.set_mode((display_width,display_height))
 
-mySurface = pygame.Surface((800,600), pygame.SRCALPHA)
-mySurface.fill((255,255,255,128))
+mySurface = pygame.Surface((800,600))
+mySurface.fill((255,255,255))
+mySurface.set_colorkey((255,0,255))
 gameDisplay.blit(mySurface, (0,0))
 
+#### NPC Sprite Group to blit at each tick ####
+poke_sprites = pygame.sprite.Group()
+
+#### Display variables ####
 pygame.display.set_caption("Edw ston agwna")
 
 white = (255,255,255)
 black = (0,0,0)
 red = (190,0,7)
 
-hero = pygame.image.load("scyther.png")
-enemy = pygame.image.load("beedrill.png")
-heroRect = hero.get_rect()
+hero = Pokemon("scyther.png")
+poke_sprites.add(hero) #TODO: Change this functionality in the class'es __init__
+enemy = Pokemon("beedrill.png")
+poke_sprites.add(enemy)
 
-FPS = 15
+FPS = 30
 clock = pygame.time.Clock()
 
 def message_to_screen(msg, color):
@@ -37,15 +57,10 @@ def message_to_screen(msg, color):
 def enemyMove():
     location_x = 0
     location_y = 100
-    enemyRect = enemy.get_rect()
-
-    #gameDisplay.blit(enemy,location_x, location_y)
+    
     while True:
-
-        enemyRect = enemyRect.move(10,0)
-        gameDisplay.blit(enemy, enemyRect)
-        pygame.display.update()
-        clock.tick(5)
+        enemy.rect = enemy.rect.move(2,0)
+        clock.tick(FPS/2)
 
 ##def blitHero():
 ##    heroRect.center = (display_width/2), 550
@@ -103,34 +118,30 @@ def gameLoop():
                     gameRunning = False
        
         for event in pygame.event.get():
-            
-            
             if event.type == pygame.QUIT:
                 gameRunning = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
-                    if location_x - 50 >= 0:
-                         location_x -= 50
+                    if hero.rect.left - 50 >= 0:   
+                        hero.rect = hero.rect.move((-50,0))
                         
                 elif event.key == pygame.K_RIGHT:
-                    if location_x + 50 < 800:
-                           location_x += 50
+                    if hero.rect.right + 50 < 800:
+                        hero.rect = hero.rect.move((50,0))
                     
                 elif event.key == pygame.K_UP:
-                     if location_y - 50 >= 0:
-                            location_y -= 50
+                     if hero.rect.top - 50 >= 0:
+                         hero.rect = hero.rect.move((0,-50))
                     
                 elif event.key == pygame.K_DOWN:
-                     if location_y + 50 < 600:
-                          location_y += 50
+                     if hero.rect.bottom + 50 < 600:
+                         hero.rect = hero.rect.move((0,50))
 
-            gameDisplay.blit(mySurface, (0,0))
-            gameDisplay.blit(hero,[location_x,location_y])
-            pygame.display.update()
-            
-        
-        
-        clock.tick(5)
+        gameDisplay.blit(mySurface, (0,0))
+        for this_sprite in poke_sprites:
+            gameDisplay.blit(this_sprite.image, this_sprite.rect)
+        pygame.display.flip()
+        clock.tick(FPS)
 
     pygame.quit()
     quit()
