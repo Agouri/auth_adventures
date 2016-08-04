@@ -10,12 +10,14 @@ pygame.init()
 display_width = 800
 display_height = 600
 
+mySurface = pygame.Surface((800,600))
 gameDisplay = pygame.display.set_mode((display_width,display_height))
 
 pygame.display.set_caption("Edw ston agwna")
 
 white = (255,255,255)
 black = (0,0,0)
+red = (190,0,7)
 
 hero = pygame.image.load("scyther.png")
 enemy = pygame.image.load("beedrill.png")
